@@ -1,0 +1,6 @@
+Issue Key,Summary,Description,Priority,Status
+RQ001,User Login,The system must allow users to log in with valid credentials (username + password),High,Open
+RQ002,Invalid Login,The system must reject login attempts with invalid credentials and show an error message,High,Open
+RQ003,Password Reset,Users must be able to reset their password via email.,Medium,Open
+RQ004,Dashboard Access	After login, users must be redirected to the dashboard page.,Medium,Open
+RQ005,Session Timeout,User sessions must expire after 15 minutes of inactivity.	,Medium,Open
