@@ -65,7 +65,9 @@ public class QaGapAnalysisService {
                     - Include positive, negative, boundary, edge, error‑handling, and performance scenarios.
                     - Infer realistic test cases from the requirement description.
                     - Even if coverage exists, propose additional cases to strengthen validation.
-                - After the table, add a section titled **Unmapped Test Cases** listing any TestRail test cases that have no Jira requirement reference.
+                - After the table, add a section titled **Unmapped Test Cases**:
+                  - List every TestRail test case where the `reference` field is empty, null, or does not match any Jira requirementId.
+                  - Show testcaseId and title for each unmapped case.
                 - Be exhaustive: every requirement must have existingTestCases and missingTestCases filled in. Do not leave cells empty.
                 - Output must be a complete Markdown table with all rows populated, not just the headers.
                 """.formatted(jiraJson, testRailJson);
