@@ -43,23 +43,31 @@ public class QaGapAnalysisService {
         String testRailJson = buildJsonForTestSuites(suites);
         String jiraJson = buildJsonForRequirements(requirements);
         String prompt = """
-                You are a QA assistant. I will provide you two inputs:
-                1. A list of Jira requirements (with requirementId, requirementSummary, requirementDescription).
-                2. A list of TestRail test cases (with testcaseId, title, and reference field that may contain a Jira requirement ID or link).
+                You are a QA assistant. I will provide you two JSON inputs:
+                1. Jira requirements (each with requirementId, requirementSummary, requirementDescription).
+                2. TestRail test cases (each with testcaseId, title, and reference field that may contain a Jira requirement ID or link).
+                
+                Jira Requirements JSON:
+                %s
+                
+                TestRail Test Cases JSON:
+                %s
                 
                 Your task:
+                - Do NOT generate code. Perform the analysis directly.
                 - Compare Jira requirements against TestRail test cases by matching requirementId with the reference field in TestRail.
-                - For each requirement, output:
+                - For each requirement, output a **fully populated row** in a Markdown table with these columns:
                   - requirementId
                   - requirementSummary
                   - requirementDescription
                   - existingTestCases: array of titles of all test cases that reference this requirement
-                  - missingTestCases: array of **multiple suggested test cases** that should exist but are missing, based on the requirement description. Be thorough and propose as many realistic test cases as possible to cover positive, negative, edge, and boundary scenarios.
-                - If any TestRail test case has no reference to a Jira requirement, list it separately under "Unmapped Test Cases".
-                - Ensure the output is in Markdown table format with columns:
-                  requirementId, requirementSummary, requirementDescription, existingTestCases, missingTestCases.
-                - Be exhaustive: every requirement should have a rich set of missing test cases if coverage is incomplete.
-                
+                  - missingTestCases: array of **multiple suggested test cases** that should exist but are missing
+                    - Include positive, negative, boundary, edge, error‑handling, and performance scenarios.
+                    - Infer realistic test cases from the requirement description.
+                    - Even if coverage exists, propose additional cases to strengthen validation.
+                - After the table, add a section titled **Unmapped Test Cases** listing any TestRail test cases that have no Jira requirement reference.
+                - Be exhaustive: every requirement must have existingTestCases and missingTestCases filled in. Do not leave cells empty.
+                - Output must be a complete Markdown table with all rows populated, not just the headers.
                 """.formatted(jiraJson, testRailJson);
 
         String llmOutput = llmRunbookClient.generate(prompt);
