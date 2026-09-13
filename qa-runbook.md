@@ -1,45 +1,47 @@
 ### SECTION 1: The Gap Analysis & Action Table
 
-| Jira ID | Requirement Summary | Identified Gap (Missing Test Case) | Risk Level | Action / Runbook Placement |
-|---------|---------------------|-----------------------------------|------------|----------------------------|
-| RQ001    | User Login          | [Negative] Login Failure with Invalid Username  | High       | Module 1: Authentication |
-| RQ001    | User Login          | [Negative] Login Failure with Invalid Password | High       | Module 1: Authentication |
-| RQ002    | Invalid Login       | [Edge] Successful Login with Expired Account | Medium     | Module 1: Authentication |
-| RQ003    | Password Reset      | [Positive] Successful Password Reset | Medium     | Module 2: Account Management |
-| RQ004    | Dashboard Access    | [Boundary] Redirection after Failed Login | Medium     | Module 1: Authentication |
-| RQ004    | Dashboard Access    | [Boundary] Redirection after Successful Login | Medium     | Module 1: Authentication |
-| RQ005    | Session Timeout     | [Performance] Session Persistence Beyond 15 Minutes | Medium     | Module 2: Session Management |
+| Jira ID | Requirement Summary | Requirement Description | Identified Gap (Missing Test Case) | Risk Level | Action / Runbook Placement |
+|---------|---------------------|-------------------------|-----------------------------------|------------|---------------------------|
+| RQ001    | User Login          | The system must allow users to log in with valid credentials (username + password) | [Negative] Login Failure with Incorrect Username | High | Module 1: Authentication |
+| RQ001    | User Login          | The system must allow users to log in with valid credentials (username + password) | [Edge] Successful Login with Empty Password | High | Module 1: Authentication |
+| RQ002    | Invalid Login       | The system must reject login attempts with invalid credentials and show an error message | [Negative] Login Success with Invalid Credentials | High | Module 1: Authentication |
+| RQ003    | Password Reset      | Users must be able to reset their password via email. | [Positive] Successful Password Reset | Medium | Module 3: Account Management |
+| RQ004    | Dashboard Access     | users must be redirected to the dashboard page. after login | [Edge] Redirection to Dashboard with Invalid Credentials | Medium | Module 1: Authentication |
+| RQ005    | Session Timeout      | User sessions must expire after 15 minutes of inactivity. | [Performance] Session Timeout after 16 minutes of inactivity | Medium | Module 2: Session Management |
 
 ### SECTION 2: Runbook Execution Sequence (The Runbook Insertion Format)
 
 #### Module 1: Authentication
-- [x] Step 1.1: Run TestRail_ID 7 - Authentication
-  - *Context:* Covers successful and unsuccessful login scenarios.
+- [x] Step 1.1: Run 7 - Authentication
+  - *Context:* Verifies the successful login with valid credentials.
 
-- [ ] Step 1.2: GAP - PENDING TESTRAIL ID Login Failure with Invalid Username
+- [ ] Step 1.2: [GAP - PENDING TESTRAIL ID] Login Failure with Incorrect Username
   - *Context:* Identified via LLM Gap Analysis for RQ001.
-  - *Temporary Manual Action:* Enter an invalid username and verify the system rejects the login attempt.
+  - *Temporary Manual Action:* Enter an incorrect username and observe the error message.
 
-- [ ] Step 1.3: GAP - PENDING TESTRAIL ID Login Failure with Invalid Password
+- [ ] Step 1.3: [GAP - PENDING TESTRAIL ID] Successful Login with Empty Password
   - *Context:* Identified via LLM Gap Analysis for RQ001.
-  - *Temporary Manual Action:* Enter a valid username with an invalid password and verify the system rejects the login attempt.
+  - *Temporary Manual Action:* Enter a valid username and leave the password field empty.
 
-- [ ] Step 1.4: GAP - PENDING TESTRAIL ID Successful Login with Expired Account
+- [x] Step 1.4: Run 56 - Login Failure with Incorrect Password
+  - *Context:* Verifies the rejection of login attempts with invalid credentials.
+
+- [ ] Step 1.5: [GAP - PENDING TESTRAIL ID] Login Success with Invalid Credentials
   - *Context:* Identified via LLM Gap Analysis for RQ002.
-  - *Temporary Manual Action:* Log in with an expired account and verify the system rejects the login attempt.
+  - *Temporary Manual Action:* Enter invalid credentials and observe if the login is successful.
 
-- [ ] Step 1.5: GAP - PENDING TESTRAIL ID Redirection after Failed Login
+#### Module 2: Session Management
+- [x] Step 2.1: Run 58 - Successful Post-Login Redirection
+  - *Context:* Verifies successful redirection to the dashboard page after a successful login.
+
+- [ ] Step 2.2: [GAP - PENDING TESTRAIL ID] Redirection to Dashboard with Invalid Credentials
   - *Context:* Identified via LLM Gap Analysis for RQ004.
-  - *Temporary Manual Action:* Enter invalid credentials and verify the user is redirected to an appropriate error page.
+  - *Temporary Manual Action:* Enter invalid credentials and observe the redirection.
 
-- [ ] Step 1.6: GAP - PENDING TESTRAIL ID Redirection after Successful Login
-  - *Context:* Identified via LLM Gap Analysis for RQ004.
-  - *Temporary Manual Action:* Log in with valid credentials and verify the user is redirected to the dashboard page.
-
-#### Module 2: Account Management
-- [x] Step 2.1: Run TestRail_ID 8 - Account Management
-  - *Context:* Covers password reset scenarios.
+#### Module 3: Account Management
+- [x] Step 3.1: Run 57 - Request Password Reset with Registered Email
+  - *Context:* Verifies the successful password reset with a registered email.
 
 ### SECTION 3: Unmapped Test Cases
-- [TestRail ID 58]: Successful Post-Login Redirection (Reason: Missing Reference Link)
-- [TestRail ID 59]: Session Persistence During Active Use (Reason: Missing Reference Link)
+- [59]: Session Persistence During Active Use (Reason: Missing Reference Link)
+- [60]: Session Timeout after 17 minutes of inactivity (Reason: Missing Reference Link)
