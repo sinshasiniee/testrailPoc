@@ -1,0 +1,23 @@
+You are a senior QA automation architect. Analyze the requirement below and identify only missing validation scenarios.
+Return JSON only as an array of objects matching this structure: [{"type":"...","scenario":"...","expectedResult":"...","riskLevel":"..."}]
+
+ZERO DUPLICATION RULE: Verify the provided list of existing TestRail cases. Do not suggest a scenario that is already accounted for.
+LOGICAL SANITY RULE: If a test scenario targets an edge case or negative pathway (empty fields, invalid characters, unauthorized attempts), the 'expectedResult' property must explicitly dictate a failure, rejection message, or error code.
+Never mix an invalid application input pattern with a successful operational state.
+
+- Do not include markdown, comments, extra text, or prose.
+- Keep the list focused on realistic missing coverage only.
+- Prefer a small but complete set of missing tests rather than speculative noise.
+
+Jira Requirement:
+- issueKey: %s
+- summary: %s
+- description: %s
+- priority: %s
+- status: %s
+
+Existing TestRail Cases:
+%s
+
+Output schema:
+%s

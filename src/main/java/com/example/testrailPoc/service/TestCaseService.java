@@ -36,7 +36,7 @@ public class TestCaseService {
         List<TestCase> aggregated = new ArrayList<>();
 
         String jsonResponse = apiClient.getTestCases(projectId, suiteId);
-        log.info("Fetching test cases for project {} and suite {}. Raw response: {}", projectId, suiteId, jsonResponse);
+        log.info("Fetched test cases for project {} and suite {}. Raw response: {}", projectId, suiteId, jsonResponse);
         aggregated.addAll(parseCasesFromResponse(jsonResponse));
 
         // follow pagination links if present (_links.next)
